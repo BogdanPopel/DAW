@@ -36,8 +36,8 @@ namespace DAW.Services.UserServices
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(newUser, UserRoleType.Admin);
-
-                return true;
+                //if( newUser.UserRoles != null)
+                    return true;
             }
 
             return false;
@@ -52,8 +52,9 @@ namespace DAW.Services.UserServices
                 user = await _repository.User.GetByIdWithRoles(user.Id);
 
                 //rolurile utilizatorului
-                List<String> roles = user.UserRoles.Select(ur => ur.Role.Name).ToList();
-
+                List<string> roles = user.UserRoles.Select(ur => ur.Role.Name).ToList();
+                //System.Diagnostics.Debug.WriteLine(roles);
+               
                 //generally unique id -> un id unic general de dotnet
                 var newJti = Guid.NewGuid().ToString();
 

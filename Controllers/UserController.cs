@@ -1,4 +1,6 @@
-﻿using DAW.Repositories;
+﻿using DAW.Models.DTO_s;
+using DAW.Models.Entities;
+using DAW.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,10 +28,24 @@ namespace DAW.Controllers
         [HttpGet]
         [Authorize(Roles = "Admin")] //restrictionez accesul doar pentru Admini
         public async Task<IActionResult> GetAllUsers()
-        {   
+        {    
             var users = await _repository.User.GetAllUsers();
             return Ok(new { users });
         }
+        
+        [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            User user = new User();
 
+            user = await _repository.User.GetByIdAsync(id);
+
+            _repository.User.Delete(user);
+
+            await _repository.SaveAsync();
+
+            return Ok(new UserDTO(user));
+        }
     }
 }
