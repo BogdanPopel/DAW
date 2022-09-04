@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAW.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220902164739_Fix-Database_UserRoles")]
-    partial class FixDatabase_UserRoles
+    [Migration("20220903125903_Final2")]
+    partial class Final2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -259,11 +259,19 @@ namespace DAW.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("RoleId1")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("int");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("RoleId1");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("AspNetUserRoles");
                 });
@@ -416,7 +424,7 @@ namespace DAW.Migrations
 
                     b.HasOne("DAW.Models.Entities.Role", "Role")
                         .WithMany("UserRoles")
-                        .HasForeignKey("RoleId");
+                        .HasForeignKey("RoleId1");
 
                     b.HasOne("DAW.Models.Entities.User", null)
                         .WithMany()
@@ -426,7 +434,7 @@ namespace DAW.Migrations
 
                     b.HasOne("DAW.Models.Entities.User", "User")
                         .WithMany("UserRoles")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Role");
 

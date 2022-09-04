@@ -11,6 +11,6 @@ namespace DAW.Models.Entities
         public string Name { get; set; }
         public string Mail { get; set; }
         public string Descriere { get; set; }
-        public virtual ICollection<EventAttraction> EventAttractions { get; set; }
+        public ICollection<EventAttraction> EventAttractions { get; set; }
     }
 }

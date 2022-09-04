@@ -40,25 +40,23 @@ namespace DAW
         {
             services.AddCors();
             services.AddControllers();
-            services.AddControllersWithViews()
-                .AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-
+           
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DAW", Version = "v1" });
             });
 
-            services.AddDbContext<Context>(options => options.UseSqlServer("Data Source=BALANU\\SQLEXPRESS;Initial Catalog=DAW;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
-
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
-
-            services.AddScoped<SeedDB>();
+            services.AddDbContext<Context>(options => options.UseSqlServer("Data Source=BALANU\\SQLEXPRESS;Initial Catalog=DAW_PROJ;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
 
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<Context>()
                 .AddDefaultTokenProviders();
+
+            services.AddAuthorization(options => {
+                options.AddPolicy("Admin", policy => policy.RequireRole(UserRoleType.Admin));
+                options.AddPolicy("User", policy => policy.RequireRole(UserRoleType.User));
+            });
+
 
             services.AddAuthentication(auth =>
             {
@@ -73,7 +71,7 @@ namespace DAW
                ValidateIssuer = false,
                ValidateAudience = false,
                ValidateLifetime = true,
-               IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("YourSecretKey")),
+               IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("YourSecretKey12345678910#$% customizabil")),
                ValidateIssuerSigningKey = true
            };
            options.Events = new JwtBearerEvents
@@ -82,17 +80,13 @@ namespace DAW
            };
        });
 
-            services.AddAuthorization(options => {
-                options.AddPolicy("Admin", policy => policy.RequireRole(UserRoleType.Admin));
-                options.AddPolicy("User", policy => policy.RequireRole(UserRoleType.User));
-            });
-
-
-           
-
             services.AddControllersWithViews()
-                .AddNewtonsoftJson(options => 
+                .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+
+            services.AddScoped<SeedDB>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -114,10 +108,13 @@ namespace DAW
                 .WithOrigins("http://localhost:44341")
             );
 
+
             app.UseRouting();
 
             app.UseAuthentication();
+
             app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {

@@ -12,6 +12,6 @@ namespace DAW.Models.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public virtual ICollection<UserRole> UserRoles  { get; set; }
+        public ICollection<UserRole> UserRoles  { get; set; }
     }
 }

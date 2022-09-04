@@ -8,20 +8,18 @@ namespace DAW.Models.DTO_s
 {
     public class LocationDTO
     {   
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        public Adress Adress { get; set; }
+        public List<PublicEvent> PublicEvents { get; set; }
+
         public LocationDTO(Location location)
         {
             this.Id = location.Id;
             this.Name = location.Name;
-            this.AdressId = location.AdressId;
-            this.Adress = location.Adress;
+            this.Adress = new Adress();
             this.PublicEvents = new List<PublicEvent>();
         }
-
-        public int Id { get; set; }
-        public string Name { get; set; }
-
-        public int AdressId { get; set; }
-        public virtual Adress Adress { get; set; }
-        public virtual List<PublicEvent> PublicEvents { get; set; }
     }
 }

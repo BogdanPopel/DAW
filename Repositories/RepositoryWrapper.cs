@@ -14,7 +14,8 @@ namespace DAW.Repositories
         private IUserRepository _user;
         private ILocRepository _location;
         private ISessionTokenRepository _sessionToken;
-
+        private IAttractionRepository _attraction;
+        private IAdressRepository _adress;
         public RepositoryWrapper(Context context)
         {
             _context = context;
@@ -24,9 +25,9 @@ namespace DAW.Repositories
         {
             get
             {
-                if(_user == null) _user = new UserRepository(_context);
+                if (_user == null) _user = new UserRepository(_context);
                 return _user;
-            }   
+            }
         }
         public ILocRepository Location
         {
@@ -37,12 +38,29 @@ namespace DAW.Repositories
             }
         }
 
-        public ISessionTokenRepository SessionToken 
+        public ISessionTokenRepository SessionToken
         {
             get
             {
                 if (_sessionToken == null) _sessionToken = new SessionTokenRepository(_context);
                 return _sessionToken;
+            }
+        }
+
+        public IAttractionRepository Attraction
+        {
+            get
+            {
+                if (_attraction == null) _attraction = new AttractionRepository(_context);
+                return _attraction;
+            }
+        }
+        public IAdressRepository Adress
+        {
+            get
+            {
+                if (_adress == null) _adress = new AdressRepository(_context);
+                return _adress;
             }
         }
 

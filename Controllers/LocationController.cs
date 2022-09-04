@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DAW.Controllers
 {
@@ -42,11 +43,13 @@ namespace DAW.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateLocation(LocationCreateDTO dto)
         {
             Location NewLoc = new Location();
             
             NewLoc.Name = dto.Name;
+            NewLoc.Adress = dto.Address;
             
             _repository.Location.Create(NewLoc);
             
@@ -56,6 +59,7 @@ namespace DAW.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteLocationById(int id)
         {
             var loc = await _repository.Location.GetByIdAsync(id);
@@ -69,7 +73,7 @@ namespace DAW.Controllers
             return NoContent();
         }
     }
-
+      
         
  }
 

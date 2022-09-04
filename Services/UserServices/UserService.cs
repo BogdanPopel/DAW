@@ -61,9 +61,17 @@ namespace DAW.Services.UserServices
                 //handler -> controller pentru token
                 var tokenHandler = new JwtSecurityTokenHandler();
                 //semnatura (your 256 bit secret -> ca pe jwt.yo)
-                var signinkey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("YourSecretKey You need to keep this sooo very secret."));
+                var signinkey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("YourSecretKey12345678910#$% customizabil"));
 
                 var token = GenerateJwtToken(signinkey, user, roles, tokenHandler, newJti);
+
+                var passwordMatch = await _userManager.CheckPasswordAsync(user, dto.Password);
+
+                if (passwordMatch == false)
+                {
+                    return "Wrong password!";
+                }
+
                 _repository.SessionToken.Create(new SessionToken(newJti, user.Id, token.ValidTo));
                 await _repository.SaveAsync();
 
@@ -92,7 +100,7 @@ namespace DAW.Services.UserServices
                 //toate datele despre token -> email, id, rol
                 Subject = subject,
                 //expira in 2 ore
-                Expires = DateTime.Now.AddHours(2),
+                Expires = DateTime.Now.AddDays(3),
                 //semnatura decodata
                 SigningCredentials = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256)
             };

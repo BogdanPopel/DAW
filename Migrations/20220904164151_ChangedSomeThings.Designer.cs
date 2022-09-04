@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAW.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220902164739_Fix-Database_UserRoles")]
-    partial class FixDatabase_UserRoles
+    [Migration("20220904164151_ChangedSomeThings")]
+    partial class ChangedSomeThings
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,10 +34,16 @@ namespace DAW.Migrations
                     b.Property<string>("County")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("StreetNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LocationId")
+                        .IsUnique();
 
                     b.ToTable("Adresses");
                 });
@@ -85,16 +91,10 @@ namespace DAW.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AdressId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AdressId")
-                        .IsUnique();
 
                     b.ToTable("Locations");
                 });
@@ -259,11 +259,19 @@ namespace DAW.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("RoleId1")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("int");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("RoleId1");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("AspNetUserRoles");
                 });
@@ -354,6 +362,17 @@ namespace DAW.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("DAW.Models.Entities.Adress", b =>
+                {
+                    b.HasOne("DAW.Models.Entities.Location", "Location")
+                        .WithOne("Adress")
+                        .HasForeignKey("DAW.Models.Entities.Adress", "LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Location");
+                });
+
             modelBuilder.Entity("DAW.Models.Entities.EventAttraction", b =>
                 {
                     b.HasOne("DAW.Models.Entities.Attraction", "Attraction")
@@ -371,17 +390,6 @@ namespace DAW.Migrations
                     b.Navigation("Attraction");
 
                     b.Navigation("PublicEvent");
-                });
-
-            modelBuilder.Entity("DAW.Models.Entities.Location", b =>
-                {
-                    b.HasOne("DAW.Models.Entities.Adress", "Adress")
-                        .WithOne("Location")
-                        .HasForeignKey("DAW.Models.Entities.Location", "AdressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Adress");
                 });
 
             modelBuilder.Entity("DAW.Models.Entities.PublicEvent", b =>
@@ -416,7 +424,7 @@ namespace DAW.Migrations
 
                     b.HasOne("DAW.Models.Entities.Role", "Role")
                         .WithMany("UserRoles")
-                        .HasForeignKey("RoleId");
+                        .HasForeignKey("RoleId1");
 
                     b.HasOne("DAW.Models.Entities.User", null)
                         .WithMany()
@@ -426,7 +434,7 @@ namespace DAW.Migrations
 
                     b.HasOne("DAW.Models.Entities.User", "User")
                         .WithMany("UserRoles")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Role");
 
@@ -469,11 +477,6 @@ namespace DAW.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DAW.Models.Entities.Adress", b =>
-                {
-                    b.Navigation("Location");
-                });
-
             modelBuilder.Entity("DAW.Models.Entities.Attraction", b =>
                 {
                     b.Navigation("EventAttractions");
@@ -481,6 +484,8 @@ namespace DAW.Migrations
 
             modelBuilder.Entity("DAW.Models.Entities.Location", b =>
                 {
+                    b.Navigation("Adress");
+
                     b.Navigation("PublicEvents");
                 });
 

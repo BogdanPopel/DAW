@@ -8,6 +8,6 @@ namespace DAW.Models.Entities
 {
     public class Role : IdentityRole<int>
     { 
-        public virtual ICollection<UserRole> UserRoles { get; set; }
+        public ICollection<UserRole> UserRoles { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace DAW.Models.Entities
         public string StreetNumber { get; set; }
         public string County { get; set; }
         public string City { get; set; }
-
-        public virtual Location Location { get; set; }
+        public int LocationId { get; set; }
+    public Location Location { get; set; }
     }
 }

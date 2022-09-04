@@ -387,8 +387,8 @@ namespace DAW.Migrations
 
             modelBuilder.Entity("DAW.Models.Entities.UserRole", b =>
                 {
-                    b.HasOne("DAW.Models.Entities.Role", null)
-                        .WithMany()
+                    b.HasOne("DAW.Models.Entities.Role", "Role")
+                        .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

@@ -43,7 +43,21 @@ namespace DAW.Data
                 .HasOne(ea => ea.Attraction)
                 .WithMany(a => a.EventAttractions)
                 .HasForeignKey(ea => ea.AttractionId);
+            /*
+            modelBuilder.Entity<User>(u => {
+                u.HasMany(u => u.UserRoles)
+                    .WithOne(u => u.User)
+                    .HasForeignKey(ur => ur.UserId)
+                    .IsRequired();
+            });
 
+            modelBuilder.Entity<Role>(r => {
+                r.HasMany(r => r.UserRoles)
+                    .WithOne(r => r.Role)
+                    .HasForeignKey(ur => ur.UserId)
+                    .IsRequired();
+            });
+            */
             modelBuilder.Entity<UserRole>(ur =>
             {
                 ur.HasKey(ur => new { ur.UserId, ur.RoleId } );
@@ -53,8 +67,17 @@ namespace DAW.Data
                 ur.HasOne(ur => ur.User).WithMany(u => u.UserRoles).HasForeignKey(ur => ur.UserId);
 
             });
+            modelBuilder.Entity<UserRole>()
+             .Navigation(ur => ur.Role)
+             .UsePropertyAccessMode(PropertyAccessMode.Property);
+           
+            modelBuilder.Entity<UserRole>()
+             .Navigation(ur => ur.User)
+             .UsePropertyAccessMode(PropertyAccessMode.Property);
+
 
             base.OnModelCreating(modelBuilder);
+            //Migration -> 20220902164739_Fix - Database_UserRoles
         }
     }
 }

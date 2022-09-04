@@ -32,10 +32,16 @@ namespace DAW.Migrations
                     b.Property<string>("County")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("StreetNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LocationId")
+                        .IsUnique();
 
                     b.ToTable("Adresses");
                 });
@@ -83,16 +89,10 @@ namespace DAW.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AdressId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AdressId")
-                        .IsUnique();
 
                     b.ToTable("Locations");
                 });
@@ -360,6 +360,17 @@ namespace DAW.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("DAW.Models.Entities.Adress", b =>
+                {
+                    b.HasOne("DAW.Models.Entities.Location", "Location")
+                        .WithOne("Adress")
+                        .HasForeignKey("DAW.Models.Entities.Adress", "LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Location");
+                });
+
             modelBuilder.Entity("DAW.Models.Entities.EventAttraction", b =>
                 {
                     b.HasOne("DAW.Models.Entities.Attraction", "Attraction")
@@ -377,17 +388,6 @@ namespace DAW.Migrations
                     b.Navigation("Attraction");
 
                     b.Navigation("PublicEvent");
-                });
-
-            modelBuilder.Entity("DAW.Models.Entities.Location", b =>
-                {
-                    b.HasOne("DAW.Models.Entities.Adress", "Adress")
-                        .WithOne("Location")
-                        .HasForeignKey("DAW.Models.Entities.Location", "AdressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Adress");
                 });
 
             modelBuilder.Entity("DAW.Models.Entities.PublicEvent", b =>
@@ -475,11 +475,6 @@ namespace DAW.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DAW.Models.Entities.Adress", b =>
-                {
-                    b.Navigation("Location");
-                });
-
             modelBuilder.Entity("DAW.Models.Entities.Attraction", b =>
                 {
                     b.Navigation("EventAttractions");
@@ -487,6 +482,8 @@ namespace DAW.Migrations
 
             modelBuilder.Entity("DAW.Models.Entities.Location", b =>
                 {
+                    b.Navigation("Adress");
+
                     b.Navigation("PublicEvents");
                 });
 

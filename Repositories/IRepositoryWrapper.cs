@@ -1,4 +1,5 @@
 ﻿using DAW.Repositories;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,9 @@ namespace DAW.Repositories
         IUserRepository User { get; }
         ISessionTokenRepository SessionToken { get;}
         ILocRepository Location { get; }
+        IAttractionRepository Attraction { get; }
+        IAdressRepository Adress { get; }
+            
         Task SaveAsync();
     }
 }
