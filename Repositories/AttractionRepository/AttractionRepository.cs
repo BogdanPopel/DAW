@@ -14,7 +14,7 @@ namespace DAW.Repositories
 
         public async Task<Attraction> GetAttractionByName(string name)
         {
-            return await _context.Attractions.FirstOrDefaultAsync(a => a.Name.Equals(name));
+            return await _context.Attractions.Where(a => a.Name.Equals(name)).FirstOrDefaultAsync();
         }
 
         public async Task<List<Attraction>> GetAllAttractions()

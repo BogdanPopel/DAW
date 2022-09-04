@@ -8,5 +8,8 @@ namespace DAW.Repositories
 {
     public interface IPublicEventRepository : IGenericRepository<PublicEvent>
     {
+        Task<PublicEvent> GetByName(string name);
+        Task<List<PublicEvent>> GetPublicEventsWithLocation();
+        Task<PublicEvent> GetPublicEventsWithLocationById(int id);
     }
 }

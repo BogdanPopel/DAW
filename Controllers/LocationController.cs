@@ -23,6 +23,7 @@ namespace DAW.Controllers
             }
 
             [HttpGet]
+            [AllowAnonymous]
             public async Task<IActionResult> GetAllLocations()
             {
                 var locations = await _repository.Location.GetAllLocationsWithAdress();

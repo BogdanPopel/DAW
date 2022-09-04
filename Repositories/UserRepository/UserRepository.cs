@@ -27,7 +27,7 @@ namespace DAW.Repositories
 
         public async Task<User> GetUserByEmail(string email)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
+            return await _context.Users.Where(u => u.Email.Equals(email)).FirstOrDefaultAsync();
         }
     }
 }
