@@ -12,11 +12,6 @@ namespace DAW.Repositories
     {
         public AttractionRepository(Context context) : base(context) { }
 
-        public async Task<Attraction> GetAttractionById(int id)
-        {
-            return await _context.Attractions.FirstOrDefaultAsync(a => a.Id == id);
-        }
-
         public async Task<Attraction> GetAttractionByName(string name)
         {
             return await _context.Attractions.FirstOrDefaultAsync(a => a.Name.Equals(name));

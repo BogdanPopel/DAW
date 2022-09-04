@@ -72,8 +72,26 @@ namespace DAW.Controllers
             await _repository.SaveAsync();
             return NoContent();
         }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateLocation(int id, UpdateLocationDTO dto)
+        {
+            Location location = new Location();
+
+            location = await _repository.Location.GetByIdAsync(id);
+            location.Name = dto.Name;
+            location.Adress = dto.Adress;
+
+            _repository.Location.Update(location);
+
+            await _repository.SaveAsync();
+
+            return Ok(new LocationDTO(location));
+        }
     }
-      
-        
- }
+
+
+
+}
 

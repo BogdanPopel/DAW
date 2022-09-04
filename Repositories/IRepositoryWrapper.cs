@@ -13,8 +13,7 @@ namespace DAW.Repositories
         ISessionTokenRepository SessionToken { get;}
         ILocRepository Location { get; }
         IAttractionRepository Attraction { get; }
-        IAdressRepository Adress { get; }
-            
+        IPublicEventRepository PublicEvent { get; }
         Task SaveAsync();
     }
 }

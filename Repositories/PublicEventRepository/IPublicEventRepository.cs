@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAW.Repositories
 {
-    public interface IAdressRepository : IGenericRepository<Adress>
+    public interface IPublicEventRepository : IGenericRepository<PublicEvent>
     {
-        Task<Adress> GetAdressById(int id);
-        Task<List<Adress>> GetAllAdresses();
     }
 }

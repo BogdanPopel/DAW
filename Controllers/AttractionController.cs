@@ -36,7 +36,7 @@ namespace DAW.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAttractionById(int id)
         {
-            var att = await _repository.Attraction.GetAttractionById(id);
+            var att = await _repository.Attraction.GetByIdAsync(id);
             return Ok(new AttractionDTO(att));
         }
         [HttpPost]
@@ -60,7 +60,7 @@ namespace DAW.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAttractionById(int id)
         {
-            var att = await _repository.Attraction.GetAttractionById(id);
+            var att = await _repository.Attraction.GetByIdAsync(id);
             if (att == null)
             {
                 return NotFound("Attraction doesn't exist");

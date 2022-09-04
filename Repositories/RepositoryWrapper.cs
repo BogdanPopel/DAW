@@ -15,7 +15,7 @@ namespace DAW.Repositories
         private ILocRepository _location;
         private ISessionTokenRepository _sessionToken;
         private IAttractionRepository _attraction;
-        private IAdressRepository _adress;
+        private IPublicEventRepository _publicEvent;
         public RepositoryWrapper(Context context)
         {
             _context = context;
@@ -55,12 +55,12 @@ namespace DAW.Repositories
                 return _attraction;
             }
         }
-        public IAdressRepository Adress
+        public IPublicEventRepository PublicEvent
         {
             get
             {
-                if (_adress == null) _adress = new AdressRepository(_context);
-                return _adress;
+                if (_publicEvent == null) _publicEvent = new PublicEventRepository(_context);
+                return _publicEvent;
             }
         }
 
