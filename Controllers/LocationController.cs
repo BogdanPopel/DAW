@@ -36,14 +36,14 @@ namespace DAW.Controllers
                 return Ok(locationsToReturn);
             }
 
-        [HttpGet("{id}")]
+        [HttpGet("byId/{id}")]
         public async Task<IActionResult> GetLocById(int id)
         {
             var loc = await _repository.Location.GetLocationWithAdressById(id);
             return Ok(new LocationDTO(loc));
         }
 
-        [HttpPost]
+        [HttpPost("fromBody")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateLocation(LocationCreateDTO dto)
         {
