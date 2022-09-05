@@ -26,7 +26,7 @@ namespace DAW.Controllers
         //daca nu ma intereseaza rolul, dar vreau ca utilizatorul sa fie logat,
         //puneam doar authorize
         [HttpGet]
-        [Authorize(Roles = "Admin")] //restrictionez accesul doar pentru Admini
+        //[Authorize(Roles = "Admin")] //restrictionez accesul doar pentru Admini
         public async Task<IActionResult> GetAllUsers()
         {    
             var users = await _repository.User.GetAllUsers();
